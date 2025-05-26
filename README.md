@@ -1,6 +1,6 @@
 # Lexy - Agentic Lexicon MCP Service
 
-![](lexy/logo.png "Lexy Logo")
+![](lexy/logo.jpg "Lexy Logo")
 
 Lexy is an intelligent glossary service built on the Model Context Protocol (MCP) that provides contextual term lookup and definition services to agentic systems and code assistants.
 
@@ -82,7 +82,7 @@ Direct term lookup with exact matching.
 ### `batch_lookup_terms`
 Batch processing for multiple lookup_term operations.
 
-```json 
+```json
 {
   "name": "batch_lookup_terms",
   "arguments" {
@@ -298,4 +298,4 @@ MIT License - see LICENSE file for details.
 - [ ] Bulk import/export tools
 - [ ] Analytics and usage tracking
 - [ ] Multi-language support
-- [ ] Integration plugins for popular IDEs 
+- [ ] Integration plugins for popular IDEs
