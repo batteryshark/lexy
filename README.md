@@ -48,14 +48,7 @@ MCP_PORT=3040
 GLOSSARY_PATH=glossary.yaml
 ```
 
-### 3. Test the Core Functionality
-
-```bash
-# Test without starting the server
-python test_lexy.py
-```
-
-### 4. Start the MCP Server
+### 3. Start the MCP Server
 
 ```bash
 python -m lexy
