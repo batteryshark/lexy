@@ -24,7 +24,7 @@ cd lexy
 pip install -r requirements.txt
 
 # Copy environment template
-cp .env.example .env
+cp env.example .env
 ```
 
 ### 2. Configuration
@@ -136,23 +136,16 @@ Browse available terms with optional filtering.
 
 ## Glossary Format
 
-Lexy uses a structured JSON format where each definition has its own see-also references:
+Lexy uses a structured YAML format where each definition has its own see-also references:
 
-```json
-{
-  "Term Name": {
-    "definitions": [
-      {
-        "text": "Primary definition of the term",
-        "see_also": ["Alias 1", "Related Term"]
-      },
-      {
-        "text": "Alternative or additional definition",
-        "see_also": ["Alias 2", "Different Related Term"]
-      }
-    ]
-  }
-}
+```yaml
+Mid:
+  definitions:
+    - text: "Average or not that good."
+      see_also:
+        - "mediocre"
+        - "meh"
+        - "average"
 ```
 
 ### Features:
@@ -161,32 +154,6 @@ Lexy uses a structured JSON format where each definition has its own see-also re
 - **Semantic precision**: See-also relationships are tied to specific meanings, not the entire term
 - **Case-insensitive lookup**: Terms are matched regardless of case
 - **Bidirectional aliases**: See-also terms automatically resolve to the main term
-
-## Configuration Options
-
-### Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MCP_SERVER_NAME` | `lexy-server` | Name of the MCP server |
-| `MCP_HOST` | `0.0.0.0` | Host to bind the server to |
-| `MCP_PORT` | `3040` | Port for the MCP server |
-| `LEXY_MODEL` | `openai:gpt-4o-mini` | AI model for smart queries |
-| `OPENAI_API_KEY` | - | OpenAI API key (if using OpenAI models) |
-| `GEMINI_API_KEY` | - | Gemini API key (if using Gemini models) |
-| `GLOSSARY_PATH` | `glossary.json` | Path to the glossary JSON file |
-
-### Supported AI Models
-
-**OpenAI Models:**
-- `openai:gpt-4o-mini` (recommended, cost-effective)
-- `openai:gpt-4o`
-- `openai:gpt-4`
-- `openai:gpt-3.5-turbo`
-
-**Gemini Models:**
-- `gemini:gemini-1.5-flash`
-- `gemini:gemini-1.5-pro`
 
 ## Integration Examples
 
@@ -199,7 +166,7 @@ Add Lexy as an MCP server in your Claude configuration:
   "mcpServers": {
     "lexy": {
       "command": "python",
-      "args": ["/path/to/lexy/server.py"],
+      "args": ["-m","path/to/lexy"],
       "env": {
         "OPENAI_API_KEY": "your-key-here"
       }
@@ -219,76 +186,15 @@ Lexy follows the standard MCP protocol and can be used with any MCP-compatible c
 ### Project Structure
 
 ```
-lexy/
-├── server.py              # Main MCP server entry point
 ├── lexy/                  # Core package modules
 │   ├── __init__.py        # Package initialization
+│   ├── __main__.py        # Main MCP server entry point
 │   ├── config.py          # Configuration management
 │   ├── models.py          # Pydantic data models
 │   ├── glossary.py        # Glossary data management
 │   └── search.py          # Search functionality (exact, fuzzy, agentic)
-├── test_lexy.py           # Test script for core functionality
 ├── glossary.yaml          # Sample glossary data
 ├── requirements.txt       # Python dependencies
-├── .env.example          # Environment template
-├── README.md             # This file
-└── PRD.md               # Product Requirements Document
+├── env.example            # Environment template
+└──  README.md             # This file
 ```
-
-### Adding New Features
-
-1. **New MCP Tools**: Add `@server.tool()` decorated functions in `server.py`
-2. **Enhanced Search**: Modify the search classes in `lexy/search.py`
-3. **AI Improvements**: Update the `AgenticSearch` class in `lexy/search.py`
-4. **Data Models**: Extend models in `lexy/models.py`
-5. **Configuration**: Add settings in `lexy/config.py`
-
-### Testing
-
-```bash
-# Test core functionality
-python test_lexy.py
-
-# Test with actual MCP client
-python server.py
-# Then connect with your MCP client
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **"OPENAI_API_KEY not set"**: Make sure your `.env` file has the correct API key
-2. **"Glossary file not found"**: Ensure `glossary.json` exists or set `GLOSSARY_PATH`
-3. **Port already in use**: Change `MCP_PORT` in `.env` to an available port
-4. **AI queries failing**: Check your API key and model name are correct
-
-### Debug Mode
-
-Add debug logging by setting environment variable:
-```bash
-export PYTHONPATH=.
-export DEBUG=1
-python lexy_server.py
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test with `python test_lexy.py`
-5. Submit a pull request
-
-## License
-
-MIT License - see LICENSE file for details.
-
-## Roadmap
-
-- [ ] Vector database integration for semantic search
-- [ ] Web UI for glossary management
-- [ ] Bulk import/export tools
-- [ ] Analytics and usage tracking
-- [ ] Multi-language support
-- [ ] Integration plugins for popular IDEs
