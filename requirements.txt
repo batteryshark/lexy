@@ -1,0 +1,15 @@
+# Lexy MCP Server Dependencies
+
+# Core MCP and PydanticAI
+pydantic-ai-slim[mcp]>=0.0.14
+fastmcp>=0.2.0
+
+# Environment and utilities
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+
+# Fuzzy matching
+rapidfuzz>=3.0.0
+
+# YAML support
+PyYAML>=6.0.0 
